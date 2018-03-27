@@ -18,15 +18,12 @@ GAUGGAACUUGACUACGUAAAUU
 """
 def transcribingDnaIntoRna(dnaSequence):
     dnaSequenceList = list(dnaSequence)
-    endIndex = len(dnaSequenceList)
-    for n in range(0, endIndex):
-        if dnaSequenceList[n] == "T":
-            dnaSequenceList[n] = "U"
-            n += 1
-    rnaSequence = ("").join(dnaSequenceList)
+    req = ["U" if x == "T" else x for x in dnaSequenceList]
+    rnaSequence = ("").join(req)
     print(rnaSequence)
 
 if __name__ == "__main__":
-    dnaSequence = "GATGGAACTTGACTACGTAAATT"
+    file = open("./rosalind_rna.txt", "r")
+    dnaSequence = file.read()
     transcribingDnaIntoRna(dnaSequence)
 

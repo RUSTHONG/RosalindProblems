@@ -19,22 +19,15 @@ Sample Output
 
 def count(String):
     sequenceList = list(String)
-    numA = 0
-    numC = 0
-    numG = 0
-    numT = 0
-    endIndex = len(sequenceList)
-    for n in range(0, endIndex):
-        if sequenceList[n] == "A":
-            numA = numA + 1
-        elif sequenceList[n] == "C":
-            numC = numC + 1
-        elif sequenceList[n] == "G":
-            numG = numG + 1
-        elif sequenceList[n] == "T":
-            numT = numT + 1
+    numA = sequenceList.count("A")
+    numC = sequenceList.count("C")
+    numG = sequenceList.count("G")
+    numT = sequenceList.count("T")
     print("A = %d, C = %d, G = %d, T = %d" % (numA, numC, numG, numT))
 
 if __name__ == "__main__":
-    String = "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"
+    file = open("./rosalind_dna.txt", "r")
+    String = file.read()
     count(String)
+
+
