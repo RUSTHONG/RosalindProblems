@@ -22,7 +22,7 @@ consensus strings.
             A T C C A G C T
             G G G C A A C T
             A T G G A T C T
-DNA Strings	A A G C A A C C
+DNA Strings A A G C A A C C
             T T G G A A C T
             A T G C C A T T
             A T G G C A C T
@@ -32,6 +32,51 @@ Profile	C   0 0 1 4 2 0 6 1
         G   1 1 6 3 0 1 0 0
         T   1 5 0 0 0 1 1 6
 
-Consensus	A T G C A A C T
+Consensus   A T G C A A C T
 
 """
+import re
+import numpy as np
+import pandas as pd
+from pandas import Series, DataFrame
+
+file = open("./rosalind_cons.txt", "r").read().replace("\n", "")
+
+def cut(rawData):
+    rawDataList = re.split(r">Rosalind_\d+", rawData)
+    del rawDataList[0]
+    return rawDataList
+
+
+def convertToMatrix(rawDataList):
+    rawDataList = [list(n) for n in rawDataList]
+    dataMatrix = np.array(rawDataList).T.tolist()
+    return dataMatrix
+
+
+def calProfile(processedList):
+    baseList = ["A", "C", "G", "T"]
+    for n in baseList:
+        result = [str(i.count(n)) for i in processedList]
+        print("%s: %s" %(n, (" ").join(result)))
+
+
+def calConsensus(processedList):
+    baseList = ["A", "C", "G", "T"]
+    #profileList = []
+    df = DataFrame()
+    for n in baseList:
+        List = [i.count(n) for i in processedList]       
+        df[n] = Series(List)
+    for value in df.idxmax(axis=1):
+        print(value, end="")
+    
+    
+    
+if __name__ == "__main__":   
+    rawDataList = cut(file)
+    processedList = convertToMatrix(rawDataList)
+    calConsensus(processedList)
+    print(" ")
+    calProfile(processedList)
+
