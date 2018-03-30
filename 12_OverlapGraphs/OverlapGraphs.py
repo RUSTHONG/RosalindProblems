@@ -19,3 +19,22 @@ Given: A collection of DNA strings in FASTA format having total length at most 1
 
 Return: The adjacency list corresponding to O3. You may return edges in any order.
 """
+import re
+filename = "./rosalind_grph.txt"
+def cut(filename):
+    with open(filename, "r") as f:
+        rawData = ('').join(f.read().split())
+        idSet = re.findall(r'Rosalind_\d+', rawData)
+        pureSequenceSet = re.split(r'>Rosalind_\d+', rawData)
+        del pureSequenceSet[0]
+        rawResult = [(k,v) for k,v in zip(idSet, pureSequenceSet)]
+        rawGraph = []
+        for k1, v1 in rawResult:
+            for k2, v2 in rawResult:
+                if k1 != k2 and v1.endswith(v2[:3]):
+                    rawGraph.append((k1,k2))
+
+        for elem in rawGraph:
+            print(elem[0], elem[1])
+
+cut(filename)
