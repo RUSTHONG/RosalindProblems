@@ -33,3 +33,14 @@ Sample Dataset
 Sample Output
 0.684
 """
+from scipy.misc import comb
+# comb函数有三个参数：N，k，exact。其功能是计算“N choose k”
+with open ('./rosalind_lia.txt') as f:
+    k, N = map(int, f.read().split())
+
+
+prob = 0
+for i in range(N, 2**k + 1):
+    prob += comb(2**k, i) * ((1/4.0)**i) * ((3/4.0)**((2**k)-i))
+
+print("%.3f" % prob)
