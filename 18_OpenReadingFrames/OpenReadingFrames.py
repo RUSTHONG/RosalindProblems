@@ -25,4 +25,64 @@ M
 MGMTPRLGLESLLE
 MTPRLGLESLLE
 """
+import re
+def convertDict(convertTable):
+    file = open(convertTable, "r").read()
+    mediumList = file.split()
+    convertDict = {k:v for k,v in zip(mediumList[::2], mediumList[1::2])}
+    return convertDict
 
+
+def read(filename):
+    with open(filename, "r") as f:
+        stringList = f.read().split()
+        del stringList[0]
+        dnaString = ("").join(stringList)
+        f.close()
+        return dnaString
+
+
+
+def dnaConvertToRna(dnaString):
+    rnaString = dnaString.replace("T", "U")
+    return rnaString
+
+
+convertTable = "./RnaCodonTable.txt"
+filename = "./test.txt"
+convertDict = convertDict(convertTable)
+dnaString = read(filename)
+rnaString = dnaConvertToRna(dnaString)
+
+testList = re.findall(r"\b(AUG)\S*?(UAG)\b", rnaString)
+print(testList)
+"""
+i = 0
+while i < len(rnaString)-3:
+    if rnaString[i:i+3] == "AUG":
+        proteinString = ""
+        for j in range(i, len(rnaString)-3, 3):
+            if rnaString[j:j+3] not in ["UAG", "UAA", "UGA"]:
+                proteinString += convertDict[rnaString[j:j+3]]
+            else:
+                break
+        i = j
+        print(proteinString)
+    i += 1 
+                
+ 
+
+
+    else:
+        while i < len(rnaString)-3:
+            if rnaString not in ["UAG", "UAA", "UGA"]:
+                proteinString += convertDict[rnaString[i:i+3]]
+                i +=3 
+            else:
+                print(proteinString)
+    """            
+
+            
+
+        
+        
