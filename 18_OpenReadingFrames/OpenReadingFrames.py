@@ -42,45 +42,54 @@ def read(filename):
         return dnaString
 
 
-
 def dnaConvertToRna(dnaString):
     rnaString = dnaString.replace("T", "U")
     return rnaString
 
 
-convertTable = "./RnaCodonTable.txt"
-filename = "./test.txt"
-convertDict = convertDict(convertTable)
-dnaString = read(filename)
-rnaString = dnaConvertToRna(dnaString)
+def reverseComplememt(dnaString):
+    reverseDict = {"A":"T", "T":"A", "C":"G", "G":"C"}
+    reverseList = [reverseDict[n] for n in list(dnaString)]
+    reverseList.reverse()
+    reverseComplememt = ("").join(reverseList)
+    return reverseComplememt
 
-testList = re.findall(r"\b(AUG)\S*?(UAG)\b", rnaString)
-print(testList)
-"""
-i = 0
-while i < len(rnaString)-3:
-    if rnaString[i:i+3] == "AUG":
+
+def problem(rnaString):
+    indice = []
+    result = []
+    for i in range(len(rnaString)-3):
+        if convertDict[rnaString[i:i+3]] == "M":
+            indice.append(i)
+
+    for i in indice:
+        stopMark = False
         proteinString = ""
         for j in range(i, len(rnaString)-3, 3):
-            if rnaString[j:j+3] not in ["UAG", "UAA", "UGA"]:
-                proteinString += convertDict[rnaString[j:j+3]]
-            else:
+            protein = convertDict[rnaString[j:j+3]]
+            if not protein:
                 break
-        i = j
-        print(proteinString)
-    i += 1 
-                
- 
+            if protein == "Stop":
+                stopMark = True
+                break
+            proteinString += protein
+        if stopMark:
+            result.append(proteinString)
+    return result
+
+if __name__ == "__main__":
+    convertTable = "./RnaCodonTable.txt"
+    filename = "./rosalind_orf.txt"
+    convertDict = convertDict(convertTable)
+    dnaString = read(filename)
+    reverseDnaString = reverseComplememt(dnaString)
+    a = problem(dnaConvertToRna(dnaString))
+    b = problem(dnaConvertToRna(reverseDnaString))
+    for n in set(a + b):
+        print(n)
 
 
-    else:
-        while i < len(rnaString)-3:
-            if rnaString not in ["UAG", "UAA", "UGA"]:
-                proteinString += convertDict[rnaString[i:i+3]]
-                i +=3 
-            else:
-                print(proteinString)
-    """            
+      
 
             
 
